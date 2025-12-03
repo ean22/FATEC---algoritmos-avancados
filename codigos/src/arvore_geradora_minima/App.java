@@ -7,10 +7,33 @@ import java.util.PriorityQueue;
 
 public class App {
     public static void main(String[] args) {
-        int n = 4;
-        int peso = 0;
+        List<List<int[]>> grafo = listaAdj();
 
+        List<Aresta> agmKrl = kruskalAGM(grafo);
+        List<Aresta> agmPrm = primAGM(grafo);
+
+        exibirAGM(agmKrl, "Kruskal");
+        exibirAGM(agmPrm, "Prim");
+    }
+
+    public static void exibirAGM(List<Aresta> agm, String agmTipo){
+        int peso = 0;
+        
+        System.out.println("---------------------------------------------");
+        System.out.println("Lista de arestas da AGM " + agmTipo + "\n");
+        System.out.println("aresta|peso");
+
+        for (Aresta e : agm) {
+            System.out.println(e.u + " - " + e.v + " (" + e.peso + ")");
+            peso =+ e.peso;
+        }
+        System.out.println("Peso total: " + peso);
+    }
+
+    public static List<List<int[]>> listaAdj(){
         List<List<int[]>> grafo = new ArrayList<>();
+        
+        int n = 4;
         for (int i = 0; i < n; i++) grafo.add(new ArrayList<>());
 
         grafo.get(0).add(new int[]{1, 2});
@@ -25,30 +48,8 @@ public class App {
         grafo.get(1).add(new int[]{3, 8});
         grafo.get(3).add(new int[]{1, 8});
 
-        List<Aresta> agmKrl = kruskalAGM(grafo);
-
-        List<Aresta> agmPrm = primAGM(grafo);
-
-        System.out.println("---------------------------------------------");
-        System.out.println("Lista de arestas da AGM Kruskal\n");
-        System.out.println("aresta | peso");
-        for (Aresta e : agmKrl) {
-            System.out.println(e.u + " - " + e.v + " (" + e.peso + ")");
-            peso =+ e.peso;
-        }
-        System.out.println("Peso total: " + peso);
-        peso = 0;
-
-        System.out.println("---------------------------------------------");
-        System.out.println("Lista de arestas da AGM Prim\n");
-        System.out.println("aresta | peso");
-        for (Aresta e : agmPrm) {
-            System.out.println(e.u + " - " + e.v + " (" + e.peso + ")");
-            peso =+ e.peso;
-        }
-
-        System.out.println("Peso total: " + peso);
-    }
+        return grafo;
+    } 
 
     public static List<Aresta> primAGM(List<List<int[]>> grafo) {
 
