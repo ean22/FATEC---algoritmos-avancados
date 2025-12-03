@@ -1,0 +1,157 @@
+package grafos;
+
+import java.util.Scanner;
+
+public class App {
+    public static void main(String[] args) throws Exception {
+        Scanner sc2 = new Scanner(System.in);
+        int resposta = -1;
+        int [][] matriz = {{0}};
+
+
+        while (resposta != 0) {
+            mostrarMenu();
+            resposta = sc2.nextInt();
+            
+            switch (resposta) {
+                case 1:
+                    matriz = criarMatrizAdj();
+                    exibirMatrizAdj(matriz);
+                    break;
+            
+                case 2:
+                    exibirMatrizAdj(matriz);
+                    break;
+                
+                case 3:
+                    criarAresta(matriz);
+                    break;
+
+                case 4:
+                    exibirVertAdj(matriz, sc2);
+                    break;
+
+                case 5:
+                    verificarAresta(matriz, sc2);
+                    break;
+
+                case 6:
+                    calcularGrauVert(matriz, sc2);
+                    break;
+
+                case 0:
+                    System.out.println("Encerrando .........");
+                    break;
+            
+             default:
+                 break;
+            }
+        }
+        sc2.close();
+
+    }
+
+    public static void mostrarMenu(){      
+        System.out.println("_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_- ");
+        System.out.println("Digite o número da opção desejada");
+        System.out.println("(1) - criar grafo");
+        System.out.println("(2) - exibir grafo");
+        System.out.println("(3) - criar arestas");
+        System.out.println("(4) - exibir vértices (lista de adjacencias)");
+        System.out.println("(5) - verificar existência de aresta entre dois vértices");
+        System.out.println("(6) - calcular grau de um vértice");
+        System.out.println("(0) - sair");
+    }
+
+    public static int[][] criarMatrizAdj() {
+        Scanner sc = new Scanner(System.in);
+        int numVertices = 0;
+        int [][] matrizAdj;
+
+        System.out.println("Digite o número de vértices do grafo:");
+        numVertices = sc.nextInt();
+
+        matrizAdj = new int [numVertices] [numVertices];
+        return matrizAdj;
+    }
+
+    public static void exibirMatrizAdj(int [][] matrizAdj){
+        for(int i = 0; i < matrizAdj.length; i++){
+            for(int j = 0; j < matrizAdj[0].length; j++){
+                System.out.print(matrizAdj[i][j] + ", ");
+            }
+
+            System.out.println("");
+        }
+
+    }
+
+    public static void criarAresta(int [][] matrizAdj){
+        Scanner sc = new Scanner(System.in);
+        int numArestas, origemCol, destinoLinha;
+        numArestas = origemCol = destinoLinha = 0;       
+
+        System.out.println("Digite quantas arestas você quer criar:");
+        numArestas = sc.nextInt();
+        sc.nextLine();
+
+        while (numArestas > 0) {
+            System.out.println("Digite o vértice de origem:");
+            origemCol = sc.nextInt();
+
+            System.out.println("Digite o vértice de destino:");
+            destinoLinha = sc.nextInt();
+
+            matrizAdj[origemCol][destinoLinha] = 1;
+            matrizAdj[destinoLinha][origemCol] = 1;
+
+            exibirMatrizAdj(matrizAdj);
+            
+            numArestas--;
+        }
+
+    }
+
+    public static void exibirVertAdj(int [][] matrizAdj, Scanner sc){
+        int indice = 0;
+        
+        System.out.println("Digite o nº do vértice:");
+        indice = sc.nextInt();
+
+        for(int i = 0; i < matrizAdj[indice].length; i++){
+            System.out.print("V(" + indice + ")" + matrizAdj[indice][i] + ",");
+        }
+        System.out.println("");
+    }
+
+    public static void verificarAresta(int [][] matrizAdj, Scanner sc){
+        int vOri, vDest;
+        vOri = vDest = 0;
+        
+        System.out.println("Digite o vértice de origem:");
+        vOri = sc.nextInt();
+
+        System.out.println("Digite o vértice de destino:");
+        vDest = sc.nextInt();
+
+        if(matrizAdj[vOri][vDest] == 1){
+            System.out.println("Existe");
+        } else{
+            System.out.println("Não exite");
+        }
+    }
+
+    public static void calcularGrauVert(int [][] matrizAdj, Scanner sc){
+        int vertice, contador;
+        vertice = contador = 0;
+        
+        System.out.println("Digite o vértice");
+        vertice = sc.nextInt();
+
+        for(int i = 0; i < matrizAdj[vertice].length; i++){
+            if(matrizAdj[vertice][i] == 1) contador++;
+        }
+
+        System.out.println("Grau V(" + vertice + "):" + contador);
+    }
+}
